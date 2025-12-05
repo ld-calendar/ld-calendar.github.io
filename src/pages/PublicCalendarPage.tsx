@@ -276,17 +276,17 @@ export function PublicCalendarPage() {
               {
                 step: '01',
                 title: '오픈채팅 신청',
-                desc: '행사날짜/멤버이름으로 입장 후 희망 검수일 전달',
+                desc: '행사날짜 / 멤버이름으로 입장 후 자료 전달 가능일 및 희망 검수일 전달',
               },
               {
                 step: '02',
                 title: '일정 확정 및 입금',
-                desc: '검수일 조율 후 최종 금액 확정 및 입금 진행',
+                desc: '자료 전달 가능일 및 검수일 조율 후 최종 금액 확정 및 입금 진행',
               },
               {
                 step: '03',
                 title: '자료 전달 및 검수',
-                desc: '자료 확인 후 시안 전달 (수정 1회 가능)',
+                desc: '자료 확인 후 검수일에 맞춰 럭키 드로우 페이지 전달 (수정 1회 가능)',
               },
             ].map((item) => (
               <div
@@ -309,7 +309,7 @@ export function PublicCalendarPage() {
 
         <section>
           <h2 className="mb-4 section-title">가격 안내</h2>
-          <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+          <div className="rounded-2xl border border-slate-200 bg-white py-9 px-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
             <ul className="space-y-4 text-sm">
               <li className="flex justify-between">
                 <span className="text-slate-600 dark:text-slate-300">
@@ -337,7 +337,7 @@ export function PublicCalendarPage() {
               </li>
             </ul>
             <div className="mt-4 border-t border-slate-100 pt-4 text-xs text-slate-400 dark:border-slate-800">
-              * 자료 받은 날짜 기준으로 산정됩니다.
+              * 자료 전달 날짜 기준으로 산정됩니다.
             </div>
           </div>
         </section>
