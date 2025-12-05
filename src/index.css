@@ -1,0 +1,162 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ✅ 전체 기본 폰트 Pretendard */
+@layer base {
+  html {
+    font-family: theme('fontFamily.sans');
+  }
+}
+@layer components {
+  /* 페이지 기본 레이아웃 */
+  .page-shell {
+    @apply space-y-10;
+  }
+
+  .page-header {
+    @apply border-b border-slate-200 pb-6 dark:border-slate-800;
+  }
+
+  .page-title {
+    @apply text-3xl font-extrabold text-slate-900 dark:text-white;
+  }
+
+  .page-subtitle {
+    @apply mt-2 text-sm text-slate-500 dark:text-slate-400;
+  }
+
+  /* 섹션 타이틀 */
+  .section-title {
+    @apply text-xl font-bold text-slate-900 dark:text-white;
+  }
+
+  .section-subtitle {
+    @apply mt-1 text-xs text-slate-500 dark:text-slate-400;
+  }
+
+  /* 2열 그리드 레이아웃 */
+  .section-grid-2 {
+    @apply grid gap-6 md:grid-cols-2;
+  }
+
+  /* 버튼 공통 */
+  .btn {
+    @apply inline-flex items-center justify-center rounded-lg text-sm font-medium transition-colors px-4;
+  }
+
+  .btn-sm {
+    @apply px-3 py-1.5 text-xs;
+  }
+
+  .btn-primary {
+    @apply bg-teal-600 text-white hover:bg-teal-700;
+  }
+
+  .btn-outline {
+    @apply border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700;
+  }
+
+  .btn-danger {
+    @apply bg-red-500 text-white hover:bg-red-600;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center rounded-lg px-5 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800;
+  }
+
+  /* 뱃지 공통 */
+  .badge {
+    @apply inline-flex items-center rounded-full px-2 py-0.5 text-[11px] font-semibold;
+  }
+
+  .badge-teal {
+    @apply badge bg-teal-100 text-teal-700 dark:bg-teal-900/40 dark:text-teal-300;
+  }
+
+  .badge-muted {
+    @apply badge bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-100;
+  }
+
+  /* 커미션 상태 뱃지 */
+  .badge-status {
+    @apply inline-flex rounded-full bg-slate-100 px-2 py-0.5 text-xs font-medium text-slate-600 dark:bg-slate-800 dark:text-slate-300;
+  }
+
+  /* PIN 표시용 작은 점 (텍스트 없이) */
+  .badge-pin-dot {
+    @apply inline-flex h-2 w-2 rounded-full bg-teal-500;
+  }
+
+  /* 리스트 카드 공통 */
+  .list-card {
+    @apply rounded-2xl border border-slate-200 bg-white text-sm shadow-sm transition-shadow hover:shadow-md dark:border-slate-800 dark:bg-slate-900;
+  }
+
+  .list-card-link {
+    @apply flex w-full items-center justify-between gap-4 p-4;
+  }
+
+  .list-left {
+    @apply min-w-0;
+  }
+
+  .list-right {
+    @apply flex shrink-0 flex-col items-end gap-1;
+  }
+
+  .list-date {
+    @apply text-xs text-slate-400 dark:text-slate-500;
+  }
+
+  .list-title {
+    @apply mt-1 truncate font-medium text-slate-900 dark:text-slate-50;
+  }
+
+  .list-title-strong {
+    @apply mt-1 truncate font-semibold text-slate-900 dark:text-slate-50;
+  }
+
+  .list-note {
+    @apply text-xs text-slate-500 dark:text-slate-400;
+  }
+
+  .list-empty {
+    @apply rounded-xl border border-dashed border-slate-300 p-8 text-center text-sm text-slate-500 dark:border-slate-700;
+  }
+
+  /* 페이지네이션 공통 */
+  .pagination-bar {
+    @apply mt-4 flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 text-xs text-slate-500 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-400;
+  }
+
+  .pagination-btn {
+    @apply rounded border border-slate-200 px-3 py-1 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800;
+  }
+
+  /* 폼 공통 */
+  .form-label {
+    @apply text-sm font-semibold text-slate-700 dark:text-slate-300;
+  }
+
+  .form-input {
+    @apply w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-slate-900 focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500 dark:border-slate-700 dark:bg-slate-900 dark:text-white;
+  }
+
+  .form-select {
+    @apply w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-slate-900 focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500 dark:border-slate-700 dark:bg-slate-900 dark:text-white;
+  }
+
+  .form-textarea {
+    @apply w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-slate-900 focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500 dark:border-slate-700 dark:bg-slate-900 dark:text-white;
+  }
+
+  .form-check {
+    @apply h-4 w-4 rounded border-slate-300 text-teal-600 focus:ring-teal-500;
+  }
+}
+
+.notice-body p:empty::before {
+  content: '\00a0';  /* non-breaking space */
+  display: inline-block;
+}
