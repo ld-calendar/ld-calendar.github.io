@@ -32,6 +32,9 @@ jobs:
 
       - name: Build
         run: npm run build
+        
+      - name: Create SPA fallback
+        run: cp dist/index.html dist/404.html   # ✅ 이 줄 추가
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
