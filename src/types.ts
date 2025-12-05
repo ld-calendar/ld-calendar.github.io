@@ -6,7 +6,12 @@ export type IsoDateTimeString = string    // 'YYYY-MM-DDTHH:mm:ss' 등
 
 /** 커미션 관련 */
 
-export type CommissionStatus = 'PAID' | 'REVIEW_REQUESTED' | 'DONE'
+// src/types.ts
+export type CommissionStatus =
+  | 'PAID'
+  | 'REVIEW_REQUESTED'
+  | 'DONE'
+  | '완료' // 예전 데이터 한글 상태까지 허용
 export type PriceTier = 'NORMAL' | 'FAST' | 'RUSH' | 'PENDING'
 
 export interface Commission {

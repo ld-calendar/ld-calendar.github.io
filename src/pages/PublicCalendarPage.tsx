@@ -141,10 +141,24 @@ export function PublicCalendarPage() {
   // 오늘 날짜 (로컬) – 요일 계산/하이라이트용
   const todayStr = toDateKey(new Date())
 
-  const pinned = notices.filter((n) => n.isPinned && n.isActive)
-  const active = notices.filter((n) => n.isActive)
-  const highlight =
-    pinned.length > 0 ? pinned.slice(0, 2) : active.slice(0, 2)
+  // 공지 하이라이트 (중요 공지 우선, 최대 2개까지)
+  const pinned = notices
+    .filter((n) => n.isPinned && n.isActive)
+    .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
+
+  const normal = notices
+    .filter((n) => !n.isPinned && n.isActive)
+    .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
+
+  const highlight: Notice[] = []
+  for (const n of pinned) {
+    if (highlight.length >= 2) break
+    highlight.push(n)
+  }
+  for (const n of normal) {
+    if (highlight.length >= 2) break
+    highlight.push(n)
+  }
 
   return (
     <div className="page-shell">
@@ -156,7 +170,8 @@ export function PublicCalendarPage() {
               Commission <span className="text-teal-500">Calendar</span>
             </h1>
             <p className="page-subtitle">
-              커미션 일정과 잔여 슬롯, 진행에 필요한 안내를 이곳에서 확인할 수 있어요.
+              커미션 일정과 잔여 슬롯, 진행에 필요한 안내를 이곳에서 확인할 수
+              있어요.
             </p>
           </div>
 
@@ -185,33 +200,63 @@ export function PublicCalendarPage() {
           </Link>
         </div>
 
-        {highlight.length === 0 ? (
-          <div className="list-empty">등록된 공지가 없습니다.</div>
-        ) : (
-          <div className="space-y-3">
-            {highlight.map((notice) => (
-              <article key={notice.id} className="list-card">
-                <Link
-                  to={`/notices/${encodeURIComponent(notice.id)}`}
-                  className="list-card-link"
-                >
+        {/* 로딩 스켈레톤 */}
+        {loading && !error && (
+          <div className="grid gap-3 md:grid-cols-2">
+            {[0, 1].map((i) => (
+              <article key={i} className="list-card animate-pulse">
+                <div className="list-card-link">
                   <div className="list-left">
-                    <div className="list-date">
-                      {notice.createdAt.slice(0, 10)}
-                    </div>
-                    <p className="list-title-strong">{notice.title}</p>
+                    <div className="mb-2 h-3 w-20 rounded bg-slate-200 dark:bg-slate-700" />
+                    <div className="h-4 w-40 rounded bg-slate-200 dark:bg-slate-700" />
                   </div>
-
-                  {/* 오른쪽: PIN 표시 점만 (텍스트 없음) */}
-                  {notice.isPinned && (
-                    <div className="list-right">
-                      <span className="badge-pin-dot" />
-                    </div>
-                  )}
-                </Link>
+                  <div className="list-right">
+                    <div className="h-3 w-3 rounded-full bg-slate-200 dark:bg-slate-700" />
+                  </div>
+                </div>
               </article>
             ))}
           </div>
+        )}
+
+        {/* 에러 */}
+        {error && (
+          <div className="list-empty text-red-500">
+            공지 데이터를 불러오지 못했습니다.
+          </div>
+        )}
+
+        {/* 실제 공지 카드 – 중요/일반 상관없이 최대 2개 */}
+        {!loading && !error && (
+          <>
+            {highlight.length === 0 ? (
+              <div className="list-empty">등록된 공지가 없습니다.</div>
+            ) : (
+              <div className="grid gap-3 md:grid-cols-2">
+                {highlight.map((notice) => (
+                  <article key={notice.id} className="list-card">
+                    <Link
+                      to={`/notices/${encodeURIComponent(notice.id)}`}
+                      className="list-card-link"
+                    >
+                      <div className="list-left">
+                        <div className="list-date">
+                          {notice.createdAt.slice(0, 10)}
+                        </div>
+                        <p className="list-title-strong">{notice.title}</p>
+                      </div>
+
+                      {notice.isPinned && (
+                        <div className="list-right">
+                          <span className="badge-pin-dot" />
+                        </div>
+                      )}
+                    </Link>
+                  </article>
+                ))}
+              </div>
+            )}
+          </>
         )}
       </section>
 
@@ -220,10 +265,10 @@ export function PublicCalendarPage() {
         <section className="lg:col-span-2">
           <h2 className="mb-4 section-title">진행 과정</h2>
 
-          {/* ✅ 요청한 안내 문구 추가 */}
           <p className="mb-3 text-sm text-rose-500 dark:text-rose-400">
-            오픈채팅으로 금액, 작동 방식 등 홈페이지에 기재된 내용에 대한 질문에는
-            별도 답변을 드리지 않습니다. 문의 전 이 페이지의 공지사항을 먼저 확인해주세요.
+            오픈채팅으로 금액, 작동 방식 등 홈페이지에 기재된 내용에 대한
+            질문에는 별도 답변을 드리지 않습니다. 문의 전 이 페이지의 공지사항을
+            먼저 확인해주세요.
           </p>
 
           <div className="grid gap-4 sm:grid-cols-3">
@@ -300,10 +345,11 @@ export function PublicCalendarPage() {
 
       {/* 캘린더 메인 */}
       <section className="mt-10">
-        <div className="mb-6 flex items-center justify-between">
+        <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <h2 className="section-title">잔여 슬롯 안내</h2>
 
-          <div className="flex items-center gap-3 rounded-lg bg-white px-4 py-2 shadow-sm dark:bg-slate-800">
+          {/* 모바일에서는 제목 아래로 내려오도록, sm부터 오른쪽 정렬 */}
+          <div className="flex items-center justify-center gap-3 rounded-lg bg-white px-3 py-2 shadow-sm sm:px-4 dark:bg-slate-800">
             <button
               onClick={handlePrevMonth}
               disabled={isAtMinMonth}
@@ -344,6 +390,7 @@ export function PublicCalendarPage() {
           </div>
         </div>
 
+
         <div className="min-h-[300px] rounded-3xl border border-slate-200 bg-slate-50 p-4 sm:p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900/50">
           {loading && (
             <div className="animate-pulse space-y-4">
@@ -351,7 +398,7 @@ export function PublicCalendarPage() {
               <div className="h-64 rounded-3xl bg-slate-200" />
             </div>
           )}
-          {error && (
+          {error && !loading && (
             <div className="py-20 text-center text-red-500">{error}</div>
           )}
           {!loading && !error && (

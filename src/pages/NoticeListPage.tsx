@@ -45,13 +45,60 @@ export function NoticeListPage() {
         </p>
       </header>
 
-      {loading && (
-        <div className="py-20 text-center text-slate-500">
-          공지사항을 불러오고 있습니다...
+      {/* 로딩 스켈레톤 */}
+      {loading && !error && (
+        <div className="mt-8 space-y-8">
+          {/* 중요 공지 스켈레톤 영역 */}
+          <section className="space-y-3">
+            <div className="h-4 w-24 rounded bg-slate-200 dark:bg-slate-700 animate-pulse" />
+            <div className="space-y-3">
+              {[0, 1].map((i) => (
+                <article
+                  key={i}
+                  className="list-card animate-pulse"
+                >
+                  <div className="list-card-link">
+                    <div className="list-left">
+                      <div className="mb-2 h-3 w-20 rounded bg-slate-200 dark:bg-slate-700" />
+                      <div className="h-4 w-40 rounded bg-slate-200 dark:bg-slate-700" />
+                    </div>
+                    <div className="list-right">
+                      <div className="h-3 w-3 rounded-full bg-slate-200 dark:bg-slate-700" />
+                    </div>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </section>
+
+          {/* 전체 공지 스켈레톤 영역 */}
+          <section className="space-y-3">
+            <div className="h-4 w-28 rounded bg-slate-200 dark:bg-slate-700 animate-pulse" />
+            <div className="space-y-3">
+              {[0, 1, 2].map((i) => (
+                <article
+                  key={i}
+                  className="list-card animate-pulse"
+                >
+                  <div className="list-card-link">
+                    <div className="list-left">
+                      <div className="mb-2 h-3 w-20 rounded bg-slate-200 dark:bg-slate-700" />
+                      <div className="h-4 w-48 rounded bg-slate-200 dark:bg-slate-700" />
+                    </div>
+                    <div className="list-right" />
+                  </div>
+                </article>
+              ))}
+            </div>
+          </section>
         </div>
       )}
-      {error && <p className="text-center text-red-500">{error}</p>}
 
+      {error && (
+        <p className="mt-8 text-center text-red-500">{error}</p>
+      )}
+
+      {/* 실제 데이터 렌더링 */}
       {!loading && !error && (
         <div className="mt-8 space-y-8">
           {/* 중요 공지 */}
